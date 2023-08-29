@@ -13,7 +13,7 @@ import { App } from "./components/App";
 
 export default function Home() {
   return (
-    <main className="mx-10">
+    <main>
       <PrimeReactProvider>
         <App />
       </PrimeReactProvider>

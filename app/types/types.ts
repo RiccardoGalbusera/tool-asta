@@ -5,17 +5,12 @@ export enum PlayerRole {
   ATTACKER = "A",
 }
 
-export type Player = {
-  role: PlayerRole;
-  name: string;
-};
-
 export type PlayerEntry = {
   player: Player;
   credits: number;
 };
 
-export type PlayerRow = {
+export type Player = {
   name: string;
   team: string;
   role: PlayerRole;
@@ -42,8 +37,8 @@ export type PlayerRawData = {
 };
 
 export type Listone = {
-  P: PlayerRow[];
-  D: PlayerRow[];
-  C: PlayerRow[];
-  A: PlayerRow[];
+  P: Player[];
+  D: Player[];
+  C: Player[];
+  A: Player[];
 };

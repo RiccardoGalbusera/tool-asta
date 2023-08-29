@@ -32,7 +32,7 @@ export function App() {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 p-10">
       <PlayerSelection players={players} />
       <ParticipantsTable />
     </div>

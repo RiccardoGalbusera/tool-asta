@@ -50,7 +50,19 @@ export function ParticipantsTable() {
   }, [maxCredits]);
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-5">
+      <div className="flex gap-2">
+        {participants.map((participant, idx) => (
+          <ParticipantColumn
+            key={idx}
+            participants={participants}
+            setParticipants={setParticipants}
+            idx={idx}
+            maxCredits={maxCredits}
+          />
+        ))}
+      </div>
+
       <div className="flex gap-10">
         <div>
           Partecipanti:{" "}
@@ -67,18 +79,6 @@ export function ParticipantsTable() {
             onBlur={(e: any) => setMaxCredits(e.target.value)}
           />
         </div>
-      </div>
-
-      <div className="flex gap-2">
-        {participants.map((participant, idx) => (
-          <ParticipantColumn
-            key={idx}
-            participants={participants}
-            setParticipants={setParticipants}
-            idx={idx}
-            maxCredits={maxCredits}
-          />
-        ))}
       </div>
     </div>
   );

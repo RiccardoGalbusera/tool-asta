@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
-import { Listone, Player, PlayerRole, PlayerRow } from "../types/types";
+import { Listone, PlayerRole, Player } from "../types/types";
 import { roleToColor } from "../constants/constants";
+import { PlayerCard } from "./PlayerCard";
 
 interface Props {
   players: Listone;
@@ -15,7 +16,7 @@ export function PlayerSelection(props: Props) {
   );
 
   return (
-    <div className="w-full border rounded-xl p-2">
+    <div className="w-full border rounded-xl p-2 flex gap-10">
       <div className="w-1/3 flex flex-col gap-5">
         <div className="mx-24 flex gap-2 justify-between">
           {Object.values(PlayerRole).map((role, idx) => {
@@ -53,6 +54,8 @@ export function PlayerSelection(props: Props) {
           className="w-full"
         />
       </div>
+
+      {selectedPlayer && <PlayerCard player={selectedPlayer} />}
     </div>
   );
 }
