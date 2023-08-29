@@ -13,13 +13,13 @@ export function App() {
         name: e.name,
         team: e.team,
         role: e.role as PlayerRole,
-        mediumPrice: Number(e.pma),
-        suggestedPrice: Number(e.pfc),
-        slot: Number(e.slot),
-        grade: Number(e.grade),
-        expectedFM: Number(e.expBonus),
+        mediumPrice: parseFloat(e.pma.replace(",", ".")),
+        suggestedPrice: parseFloat(e.pfc.replace(",", ".")),
+        slot: parseInt(e.slot),
+        grade: parseInt(e.grade),
+        expectedFM: parseFloat(e.expBonus.replace(",", ".")),
         updatedAt: new Date(e.updatedAt),
-        priceDifference: Number(e.dpfcpma),
+        priceDifference: parseFloat(e.dpfcpma.replace(",", ".")),
       };
     });
   }

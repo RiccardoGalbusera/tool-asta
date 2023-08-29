@@ -43,64 +43,64 @@ export function ParticipantColumn(props: Props) {
   const afterMidfieldersCredits = afterDefendersCredits - midfieldersCredits;
   const afterAttackersCredits = afterMidfieldersCredits - attackersCredits;
 
-  const widthPercentage = (94 / participants.length).toFixed(0);
-
   return (
-    <div className={`w-[${widthPercentage}%] flex flex-col gap-2`}>
+    <div
+      className={`flex flex-col gap-2 p-1 outline-1 outline outline-gray-300 rounded mx-1`}
+    >
       <input
         defaultValue={participant.name}
         onBlur={(e) => changeParticipantName(e.target.value)}
         className="w-full"
       />
       <div className="flex justify-between text-lg">
-        Crediti rimasti: <span>{participant.credits}</span>
+        Crediti: <span>{participant.credits}</span>
       </div>
       <div>
-        <div className="flex justify-between px-1">
-          Portieri: <span>{goalkeepersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          POR: <span>{goalkeepersCredits}</span>
         </div>
         <PlayersSection
           maxCount={3}
           playerEntries={participant.players.goalkeepers}
         />
-        <div className="flex justify-between px-1">
-          Crediti Rimasti: <span>{afterGoalkeepersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          Crediti: <span>{afterGoalkeepersCredits}</span>
         </div>
       </div>
       <div>
-        <div className="flex justify-between px-1">
-          Difensori: <span>{defendersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          DIF: <span>{defendersCredits}</span>
         </div>
         <PlayersSection
           maxCount={8}
           playerEntries={participant.players.defenders}
         />
-        <div className="flex justify-between px-1">
-          Crediti Rimasti: <span>{afterDefendersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          Crediti: <span>{afterDefendersCredits}</span>
         </div>
       </div>
       <div>
-        <div className="flex justify-between px-1">
-          Centrocampisti: <span>{midfieldersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          CEN: <span>{midfieldersCredits}</span>
         </div>{" "}
         <PlayersSection
           maxCount={8}
           playerEntries={participant.players.midfielders}
         />
-        <div className="flex justify-between px-1">
-          Crediti Rimasti: <span>{afterMidfieldersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          Crediti: <span>{afterMidfieldersCredits}</span>
         </div>
       </div>
       <div>
-        <div className="flex justify-between px-1">
-          Attaccanti: <span>{attackersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          ATT: <span>{attackersCredits}</span>
         </div>{" "}
         <PlayersSection
           maxCount={6}
           playerEntries={participant.players.attackers}
         />
-        <div className="flex justify-between px-1">
-          Crediti Rimasti: <span>{afterAttackersCredits}</span>
+        <div className="flex justify-between text-sm px-1">
+          Crediti: <span>{afterAttackersCredits}</span>
         </div>
       </div>
     </div>

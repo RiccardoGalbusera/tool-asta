@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { Listone, PlayerRole, Player } from "../types/types";
-import { roleToColor } from "../constants/constants";
 import { PlayerCard } from "./PlayerCard";
+import { RoleCircle } from "./RoleCircle";
 
 interface Props {
   players: Listone;
@@ -16,24 +16,21 @@ export function PlayerSelection(props: Props) {
   );
 
   return (
-    <div className="w-full border rounded-xl p-2 flex gap-10">
+    <div className="w-full border rounded-xl p-10 flex gap-10">
       <div className="w-1/3 flex flex-col gap-5">
-        <div className="mx-24 flex gap-2 justify-between">
+        <div className="mx-16 flex gap-16 justify-between">
           {Object.values(PlayerRole).map((role, idx) => {
             const isSelected = selectedRole === role;
             return (
-              <div
+              <RoleCircle
                 key={role}
-                className={`border rounded-full px-1.5 ${
-                  isSelected ? roleToColor[role] : "opacity-80"
-                }`}
+                role={role}
                 onClick={() => {
                   setSelectedRole(role);
                   setSelectedPlayer(undefined);
                 }}
-              >
-                {role}
-              </div>
+                isSelected={isSelected}
+              />
             );
           })}
         </div>

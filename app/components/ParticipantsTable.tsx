@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ParticipantColumn } from "./ParticipantColumn";
 import { PlayerEntry } from "../types/types";
 
@@ -49,9 +49,14 @@ export function ParticipantsTable() {
     );
   }, [maxCredits]);
 
+  const gridClassName = useMemo(
+    () => `grid grid-cols-${participants.length}`,
+    [participants]
+  );
+
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex gap-2">
+      <div className={"grid grid-flow-col"}>
         {participants.map((participant, idx) => (
           <ParticipantColumn
             key={idx}
