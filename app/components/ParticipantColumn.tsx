@@ -43,8 +43,10 @@ export function ParticipantColumn(props: Props) {
   const afterMidfieldersCredits = afterDefendersCredits - midfieldersCredits;
   const afterAttackersCredits = afterMidfieldersCredits - attackersCredits;
 
+  const widthPercentage = (94 / participants.length).toFixed(0);
+
   return (
-    <div className={`w-1/${participants.length} flex flex-col gap-2`}>
+    <div className={`w-[${widthPercentage}%] flex flex-col gap-2`}>
       <input
         defaultValue={participant.name}
         onBlur={(e) => changeParticipantName(e.target.value)}

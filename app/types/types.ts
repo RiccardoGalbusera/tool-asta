@@ -24,6 +24,26 @@ export type PlayerRow = {
   slot: number;
   grade: number;
   expectedFM: number;
-  updatedAt: string;
+  updatedAt: Date;
   priceDifference: number;
+};
+
+export type PlayerRawData = {
+  name: string;
+  team: string;
+  role: string;
+  pma: string;
+  pfc: string;
+  slot: string;
+  grade: string;
+  expBonus: string;
+  updatedAt: string;
+  dpfcpma: string;
+};
+
+export type Listone = {
+  P: PlayerRow[];
+  D: PlayerRow[];
+  C: PlayerRow[];
+  A: PlayerRow[];
 };

@@ -1,4 +1,4 @@
-import { PlayerRole } from "./types/types";
+import { PlayerRole } from "../types/types";
 
 export const roleToColor: Record<PlayerRole, string> = {
   P: "bg-orange-300",

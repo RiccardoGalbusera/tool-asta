@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
-import { Player, PlayerRole } from "../types/types";
-import { roleToColor } from "../constants";
+import { Listone, Player, PlayerRole, PlayerRow } from "../types/types";
+import { roleToColor } from "../constants/constants";
 
-export function PlayerSelection() {
-  const players: Player[] = [
-    { name: "Giovanni", role: PlayerRole.ATTACKER },
-    { name: "Giorgio", role: PlayerRole.ATTACKER },
-    { name: "Filippo", role: PlayerRole.ATTACKER },
-    { name: "Stefano", role: PlayerRole.ATTACKER },
-  ];
+interface Props {
+  players: Listone;
+}
+
+export function PlayerSelection(props: Props) {
+  const { players } = props;
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
-  const [selectedRole, setSelectedRole] = useState<PlayerRole>();
+  const [selectedRole, setSelectedRole] = useState<PlayerRole>(
+    PlayerRole.GOALKEEPER
+  );
 
   return (
-    <div className="border rounded-xl p-2">
+    <div className="w-full border rounded-xl p-2">
       <div className="w-1/3 flex flex-col gap-5">
         <div className="mx-24 flex gap-2 justify-between">
           {Object.values(PlayerRole).map((role, idx) => {
@@ -25,7 +26,10 @@ export function PlayerSelection() {
                 className={`border rounded-full px-1.5 ${
                   isSelected ? roleToColor[role] : "opacity-80"
                 }`}
-                onClick={() => setSelectedRole(role)}
+                onClick={() => {
+                  setSelectedRole(role);
+                  setSelectedPlayer(undefined);
+                }}
               >
                 {role}
               </div>
@@ -35,7 +39,7 @@ export function PlayerSelection() {
         <Dropdown
           value={selectedPlayer}
           onChange={(e) => setSelectedPlayer(e.value)}
-          options={players}
+          options={players[selectedRole]}
           optionLabel="name"
           placeholder="Giocatore"
           filter
