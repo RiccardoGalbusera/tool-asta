@@ -27,7 +27,7 @@ export function PlayerSelection() {
                 }`}
                 onClick={() => setSelectedRole(role)}
               >
-                {role.charAt(0)}
+                {role}
               </div>
             );
           })}

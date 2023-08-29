@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "load-data": "node scripts/parser.js"
   },
   "dependencies": {
     "@types/node": "20.5.7",
@@ -14,6 +15,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
     "classnames": "^2.3.2",
+    "csv-parser": "^3.0.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
@@ -25,5 +27,10 @@
     "react-transition-group": "^4.4.5",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

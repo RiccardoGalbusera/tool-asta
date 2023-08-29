@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { ParticipantColumn } from "./ParticipantColumn";
 import { PlayerEntry } from "../types/types";
-import { PlayerSelection } from "./PlayerSelection";
 
 export type Participant = {
   name: string;
@@ -69,8 +68,6 @@ export function ParticipantsTable() {
           />
         </div>
       </div>
-
-      <PlayerSelection />
 
       <div className="flex gap-2">
         {participants.map((participant, idx) => (
