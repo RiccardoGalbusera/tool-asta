@@ -36,9 +36,13 @@ export type PlayerRawData = {
   dpfcpma: string;
 };
 
-export type Listone = {
-  P: Player[];
-  D: Player[];
-  C: Player[];
-  A: Player[];
+export type Participant = {
+  name: string;
+  credits: number;
+  players: {
+    P: PlayerEntry[];
+    D: PlayerEntry[];
+    C: PlayerEntry[];
+    A: PlayerEntry[];
+  };
 };

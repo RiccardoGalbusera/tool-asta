@@ -1,4 +1,5 @@
-import { Participant } from "./ParticipantsTable";
+import { maxPlayersPerRole } from "../constants/constants";
+import { Participant, PlayerRole } from "../types/types";
 import { PlayersSection } from "./PlayersSection";
 
 interface Props {
@@ -21,19 +22,19 @@ export function ParticipantColumn(props: Props) {
     ]);
   };
 
-  const goalkeepersCredits = participant.players.goalkeepers.reduce(
+  const goalkeepersCredits = participant.players.P.reduce(
     (prev, curr, idx) => prev + curr.credits,
     0
   );
-  const defendersCredits = participant.players.defenders.reduce(
+  const defendersCredits = participant.players.D.reduce(
     (prev, curr, idx) => prev + curr.credits,
     0
   );
-  const midfieldersCredits = participant.players.midfielders.reduce(
+  const midfieldersCredits = participant.players.C.reduce(
     (prev, curr, idx) => prev - curr.credits,
     0
   );
-  const attackersCredits = participant.players.goalkeepers.reduce(
+  const attackersCredits = participant.players.A.reduce(
     (prev, curr, idx) => prev - curr.credits,
     0
   );
@@ -60,8 +61,8 @@ export function ParticipantColumn(props: Props) {
           POR: <span>{goalkeepersCredits}</span>
         </div>
         <PlayersSection
-          maxCount={3}
-          playerEntries={participant.players.goalkeepers}
+          maxCount={maxPlayersPerRole[PlayerRole.GOALKEEPER]}
+          playerEntries={participant.players.P}
         />
         <div className="flex justify-between text-sm px-1">
           Crediti: <span>{afterGoalkeepersCredits}</span>
@@ -72,8 +73,8 @@ export function ParticipantColumn(props: Props) {
           DIF: <span>{defendersCredits}</span>
         </div>
         <PlayersSection
-          maxCount={8}
-          playerEntries={participant.players.defenders}
+          maxCount={maxPlayersPerRole[PlayerRole.DEFENDER]}
+          playerEntries={participant.players.D}
         />
         <div className="flex justify-between text-sm px-1">
           Crediti: <span>{afterDefendersCredits}</span>
@@ -84,8 +85,8 @@ export function ParticipantColumn(props: Props) {
           CEN: <span>{midfieldersCredits}</span>
         </div>{" "}
         <PlayersSection
-          maxCount={8}
-          playerEntries={participant.players.midfielders}
+          maxCount={maxPlayersPerRole[PlayerRole.MIDFIELDER]}
+          playerEntries={participant.players.C}
         />
         <div className="flex justify-between text-sm px-1">
           Crediti: <span>{afterMidfieldersCredits}</span>
@@ -96,8 +97,8 @@ export function ParticipantColumn(props: Props) {
           ATT: <span>{attackersCredits}</span>
         </div>{" "}
         <PlayersSection
-          maxCount={6}
-          playerEntries={participant.players.attackers}
+          maxCount={maxPlayersPerRole[PlayerRole.ATTACKER]}
+          playerEntries={participant.players.A}
         />
         <div className="flex justify-between text-sm px-1">
           Crediti: <span>{afterAttackersCredits}</span>

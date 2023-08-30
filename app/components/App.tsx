@@ -4,10 +4,47 @@ import { data as midfielders } from "../../data/C";
 import { data as attackers } from "../../data/A";
 import { PlayerSelection } from "./PlayerSelection";
 import { ParticipantsTable } from "./ParticipantsTable";
-import { Listone, PlayerRawData, PlayerRole } from "../types/types";
+import { Participant, Player, PlayerRawData, PlayerRole } from "../types/types";
+import { useEffect, useState } from "react";
+import { maxPlayersPerRole } from "../constants/constants";
 
 export function App() {
-  function parseData(data: PlayerRawData[]): Listone["P"] {
+  const [participantsNumber, setParticipantsNumber] = useState(10);
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player>();
+  const [maxCredits, setMaxCredits] = useState(500);
+
+  const emptyParticipant: Participant = {
+    name: "",
+    credits: maxCredits,
+    players: {
+      P: [],
+      D: [],
+      C: [],
+      A: [],
+    },
+  };
+
+  useEffect(() => {
+    if (participantsNumber > participants.length) {
+      const participantsToAdd = participantsNumber - participants.length;
+      for (let i = 0; i < participantsToAdd; i++) {
+        setParticipants([...participants, emptyParticipant]);
+      }
+    } else if (participantsNumber < participants.length) {
+      setParticipants(participants.slice(0, participantsNumber - 1));
+    }
+  }, [participantsNumber, participants]);
+
+  useEffect(() => {
+    setParticipants(
+      participants.map((participant) => {
+        return { ...participant, credits: maxCredits };
+      })
+    );
+  }, [maxCredits]);
+
+  function parseData(data: PlayerRawData[]): Player[] {
     return data.map((e) => {
       return {
         name: e.name,
@@ -24,17 +61,71 @@ export function App() {
     });
   }
 
-  const players: Listone = {
-    P: parseData(goalkeepers),
-    D: parseData(defenders),
-    C: parseData(midfielders),
-    A: parseData(attackers),
-  };
+  const [players, setPlayers] = useState<Player[]>([
+    ...parseData(goalkeepers),
+    ...parseData(defenders),
+    ...parseData(midfielders),
+    ...parseData(attackers),
+  ]);
+
+  function assignPlayerToParticipant(
+    playerRole: PlayerRole,
+    playerIndex: number,
+    participantIdx: number,
+    credits: number
+  ) {
+    console.log("cvi");
+    const player = players[playerIndex];
+    const participant = participants[participantIdx];
+
+    if (participant.players[playerRole].length >= maxPlayersPerRole[playerRole])
+      return;
+    console.log("cvi");
+
+    participant.players[playerRole].push({ player, credits });
+
+    setParticipants([
+      ...participants.slice(0, participantIdx),
+      participant,
+      ...participants.splice(participantIdx + 1),
+    ]);
+
+    setPlayers(players.filter((_, idx) => idx !== playerIndex));
+    setSelectedPlayer(undefined);
+  }
 
   return (
     <div className="flex flex-col gap-5 p-10">
-      <PlayerSelection players={players} />
-      <ParticipantsTable />
+      <PlayerSelection
+        players={players}
+        participants={participants}
+        assignPlayerToParticipant={assignPlayerToParticipant}
+        selectedPlayer={selectedPlayer}
+        setSelectedPlayer={setSelectedPlayer}
+      />
+      <ParticipantsTable
+        participants={participants}
+        setParticipants={setParticipants}
+        maxCredits={maxCredits}
+      />
+
+      <div className="flex gap-10">
+        <div>
+          Partecipanti:{" "}
+          <input
+            defaultValue={participantsNumber}
+            onBlur={(e: any) => setParticipantsNumber(e.target.value)}
+          />
+        </div>
+
+        <div>
+          Crediti:{" "}
+          <input
+            defaultValue={maxCredits}
+            onBlur={(e: any) => setMaxCredits(e.target.value)}
+          />
+        </div>
+      </div>
     </div>
   );
 }

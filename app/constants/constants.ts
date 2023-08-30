@@ -6,3 +6,10 @@ export const roleToColor: Record<PlayerRole, string> = {
   C: "bg-blue-300",
   A: "bg-red-300",
 };
+
+export const maxPlayersPerRole: Record<PlayerRole, number> = {
+  P: 3,
+  D: 8,
+  C: 8,
+  A: 8,
+};
