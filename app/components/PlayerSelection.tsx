@@ -16,6 +16,8 @@ interface Props {
     participantIdx: number,
     credits: number
   ) => void;
+  selectedRole: PlayerRole;
+  setSelectedRole: (role: PlayerRole) => void;
 }
 
 export function PlayerSelection(props: Props) {
@@ -25,10 +27,10 @@ export function PlayerSelection(props: Props) {
     assignPlayerToParticipant,
     setSelectedPlayer,
     selectedPlayer,
+    selectedRole,
+    setSelectedRole,
   } = props;
-  const [selectedRole, setSelectedRole] = useState<PlayerRole>(
-    PlayerRole.GOALKEEPER
-  );
+
   const selectedPlayerIdx = useMemo(
     () =>
       selectedPlayer
@@ -83,7 +85,11 @@ export function PlayerSelection(props: Props) {
           />
         </div>
 
-        {selectedPlayer && <PlayerCard player={selectedPlayer} />}
+        {selectedPlayer ? (
+          <PlayerCard player={selectedPlayer} />
+        ) : (
+          <div className="w-2/3"></div>
+        )}
       </div>
 
       {selectedPlayer && selectedPlayerIdx !== undefined && (

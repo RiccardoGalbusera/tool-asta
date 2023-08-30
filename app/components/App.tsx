@@ -13,6 +13,7 @@ import {
 } from "../types/types";
 import { useEffect, useMemo, useState } from "react";
 import { maxPlayersPerRole } from "../constants/constants";
+import { PlayersTable } from "./PlayersTable";
 
 export function App() {
   const [participantsNumber, setParticipantsNumber] = useState(10);
@@ -20,6 +21,9 @@ export function App() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [maxCredits, setMaxCredits] = useState(500);
   const [purchaseHistory, setPurchaseHistory] = useState<Purchase[]>([]);
+  const [selectedRole, setSelectedRole] = useState<PlayerRole>(
+    PlayerRole.GOALKEEPER
+  );
 
   const emptyParticipant: Participant = {
     name: "",
@@ -129,12 +133,15 @@ export function App() {
         assignPlayerToParticipant={assignPlayerToParticipant}
         selectedPlayer={selectedPlayer}
         setSelectedPlayer={setSelectedPlayer}
+        selectedRole={selectedRole}
+        setSelectedRole={setSelectedRole}
       />
       <ParticipantsTable
         participants={participants}
         setParticipants={setParticipants}
         maxCredits={maxCredits}
       />
+      <PlayersTable players={players} selectedRole={selectedRole} />
 
       <div className="flex gap-10">
         <div>

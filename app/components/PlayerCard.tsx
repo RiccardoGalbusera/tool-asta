@@ -8,7 +8,7 @@ interface Props {
 export function PlayerCard(props: Props) {
   const { player } = props;
   return (
-    <div className="flex justify-center w-full gap-10">
+    <div className="flex justify-center w-2/3 gap-10">
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="text-4xl">{player.name}</div>
         <div className="flex justify-between gap-8 text-2xl">
