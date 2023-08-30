@@ -16,7 +16,7 @@ export function PlayersSection(props: Props) {
           id < playerEntries.length ? playerEntries[id] : null;
         return (
           <div
-            key="id"
+            key={id}
             className="border px-3 flex justify-between h-5 text-sm"
           >
             <div>{playerEntry ? playerEntry.player.name : ""}</div>

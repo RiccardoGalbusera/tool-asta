@@ -46,3 +46,8 @@ export type Participant = {
     A: PlayerEntry[];
   };
 };
+
+export type Purchase = {
+  participantIdx: number;
+  playerEntry: PlayerEntry;
+};

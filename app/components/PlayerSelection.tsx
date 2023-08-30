@@ -38,7 +38,10 @@ export function PlayerSelection(props: Props) {
   );
 
   const rolePlayers = useMemo(
-    () => players.filter((player) => player.role === selectedRole),
+    () =>
+      players
+        .filter((player) => player.role === selectedRole)
+        .sort((a, b) => (a.name < b.name ? -1 : 1)),
     [selectedRole, players]
   );
 

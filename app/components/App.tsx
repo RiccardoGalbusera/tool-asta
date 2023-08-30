@@ -4,8 +4,14 @@ import { data as midfielders } from "../../data/C";
 import { data as attackers } from "../../data/A";
 import { PlayerSelection } from "./PlayerSelection";
 import { ParticipantsTable } from "./ParticipantsTable";
-import { Participant, Player, PlayerRawData, PlayerRole } from "../types/types";
-import { useEffect, useState } from "react";
+import {
+  Participant,
+  Player,
+  PlayerRawData,
+  PlayerRole,
+  Purchase,
+} from "../types/types";
+import { useEffect, useMemo, useState } from "react";
 import { maxPlayersPerRole } from "../constants/constants";
 
 export function App() {
@@ -13,6 +19,7 @@ export function App() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [maxCredits, setMaxCredits] = useState(500);
+  const [purchaseHistory, setPurchaseHistory] = useState<Purchase[]>([]);
 
   const emptyParticipant: Participant = {
     name: "",
@@ -74,15 +81,14 @@ export function App() {
     participantIdx: number,
     credits: number
   ) {
-    console.log("cvi");
     const player = players[playerIndex];
     const participant = participants[participantIdx];
+    const playerEntry = { player, credits };
 
     if (participant.players[playerRole].length >= maxPlayersPerRole[playerRole])
       return;
-    console.log("cvi");
 
-    participant.players[playerRole].push({ player, credits });
+    participant.players[playerRole].push(playerEntry);
 
     setParticipants([
       ...participants.slice(0, participantIdx),
@@ -90,9 +96,30 @@ export function App() {
       ...participants.splice(participantIdx + 1),
     ]);
 
+    setPurchaseHistory(purchaseHistory.concat({ participantIdx, playerEntry }));
     setPlayers(players.filter((_, idx) => idx !== playerIndex));
     setSelectedPlayer(undefined);
   }
+
+  const undoLastPurchase = useMemo(
+    () => () => {
+      const lastPurchase = purchaseHistory[purchaseHistory.length - 1];
+      const participant = participants[lastPurchase.participantIdx];
+      const playerRole = lastPurchase.playerEntry.player.role;
+      participant.players[playerRole].pop();
+
+      setParticipants([
+        ...participants.slice(0, lastPurchase.participantIdx),
+        participant,
+        ...participants.splice(lastPurchase.participantIdx + 1),
+      ]);
+      setPlayers([...players, lastPurchase.playerEntry.player]);
+
+      purchaseHistory.pop();
+      setPurchaseHistory(purchaseHistory);
+    },
+    [purchaseHistory, participants, players]
+  );
 
   return (
     <div className="flex flex-col gap-5 p-10">
@@ -124,6 +151,13 @@ export function App() {
             defaultValue={maxCredits}
             onBlur={(e: any) => setMaxCredits(e.target.value)}
           />
+        </div>
+
+        <div
+          className="bg-red-400 p-1 rounded-lg hover:cursor-pointer"
+          onClick={undoLastPurchase}
+        >
+          Annulla
         </div>
       </div>
     </div>
