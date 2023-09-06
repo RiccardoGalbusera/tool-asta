@@ -30,6 +30,10 @@ export function PlayerCard(props: Props) {
           <div>Fantamedia attesa</div>
           <div className="text-xl font-bold">{player.expectedFM}</div>
         </div>
+        <div className="flex flex-col gap-2 items-center">
+          <div>Percentuale voto</div>
+          <div className="text-xl font-bold">{player.grade}%</div>
+        </div>
       </div>
     </div>
   );
