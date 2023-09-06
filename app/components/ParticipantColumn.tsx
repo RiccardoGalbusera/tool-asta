@@ -31,11 +31,11 @@ export function ParticipantColumn(props: Props) {
     0
   );
   const midfieldersCredits = participant.players.C.reduce(
-    (prev, curr, idx) => prev - curr.credits,
+    (prev, curr, idx) => prev + curr.credits,
     0
   );
   const attackersCredits = participant.players.A.reduce(
-    (prev, curr, idx) => prev - curr.credits,
+    (prev, curr, idx) => prev + curr.credits,
     0
   );
 
@@ -54,7 +54,7 @@ export function ParticipantColumn(props: Props) {
         className="w-full"
       />
       <div className="flex justify-between text-lg">
-        Crediti: <span>{participant.credits}</span>
+        Crediti: <span>{afterAttackersCredits}</span>
       </div>
       <div>
         <div className="flex justify-between text-sm px-1">

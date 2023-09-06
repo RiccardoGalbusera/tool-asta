@@ -36,6 +36,7 @@ export function PlayersTable(props: Props) {
           <th>Differenza</th>
           <th>Percentuale Voto</th>
           <th>Slot</th>
+          <th>Trait</th>
         </tr>
       </thead>
       <tbody>
@@ -65,6 +66,9 @@ export function PlayersTable(props: Props) {
               </td>
               <td className="border border-1 px-1 text-center">
                 {player.slot}
+              </td>
+              <td className="border border-1 px-1 text-center">
+                {player.traits.map((trait) => trait.charAt(0)).join(" ")}
               </td>
             </tr>
           );

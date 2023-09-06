@@ -1,3 +1,5 @@
+import { Trait } from "@/data/traits";
+
 export enum PlayerRole {
   GOALKEEPER = "P",
   DEFENDER = "D",
@@ -21,6 +23,7 @@ export type Player = {
   expectedFM: number;
   updatedAt: Date;
   priceDifference: number;
+  traits: Trait[];
 };
 
 export type PlayerRawData = {

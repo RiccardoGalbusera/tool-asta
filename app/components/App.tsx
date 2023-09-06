@@ -14,6 +14,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { maxPlayersPerRole } from "../constants/constants";
 import { PlayersTable } from "./PlayersTable";
+import { playersTraits } from "@/data/traits";
 
 export function App() {
   const [participantsNumber, setParticipantsNumber] = useState(10);
@@ -57,6 +58,7 @@ export function App() {
 
   function parseData(data: PlayerRawData[]): Player[] {
     return data.map((e) => {
+      const traits = playersTraits[e.name];
       return {
         name: e.name,
         team: e.team,
@@ -68,6 +70,7 @@ export function App() {
         expectedFM: parseFloat(e.expBonus.replace(",", ".")),
         updatedAt: new Date(e.updatedAt),
         priceDifference: parseFloat(e.dpfcpma.replace(",", ".")),
+        traits: traits || [],
       };
     });
   }

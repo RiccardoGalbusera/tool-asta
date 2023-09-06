@@ -19,7 +19,9 @@ export function PlayersSection(props: Props) {
             key={id}
             className="border px-3 flex justify-between h-5 text-sm"
           >
-            <div>{playerEntry ? playerEntry.player.name : ""}</div>
+            <div className="overflow-hidden">
+              {playerEntry ? playerEntry.player.name : ""}
+            </div>
             <div>{playerEntry ? playerEntry.credits : ""}</div>
           </div>
         );
