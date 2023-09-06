@@ -1,16 +1,18 @@
 import { useMemo, useState } from "react";
 import { Player, PlayerRole } from "../types/types";
+import { SortingArrows, SortingField } from "./SortingArrows";
 
 interface Props {
   selectedRole: PlayerRole;
   players: Player[];
 }
+
 export function PlayersTable(props: Props) {
   const { selectedRole, players } = props;
-  const [sortingField, setSortingField] = useState<{
-    field: keyof Player;
-    order: "asc" | "desc";
-  }>({ field: "mediumPrice", order: "desc" });
+  const [sortingField, setSortingField] = useState<SortingField>({
+    field: "mediumPrice",
+    order: "desc",
+  });
 
   const rolePlayers = useMemo(
     () =>
@@ -30,13 +32,69 @@ export function PlayersTable(props: Props) {
         <tr>
           <th>Nome</th>
           <th>Squadra</th>
-          <th>Medio</th>
-          <th>Suggerito</th>
-          <th>FM attesa</th>
-          <th>Differenza</th>
-          <th>Percentuale Voto</th>
-          <th>Slot</th>
-          <th>Trait</th>
+          <th>
+            {" "}
+            <div className="flex items-center justify-center gap-2">
+              Medio{" "}
+              <SortingArrows
+                field="mediumPrice"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>
+            {" "}
+            <div className="flex items-center justify-center gap-2">
+              Suggerito{" "}
+              <SortingArrows
+                field="suggestedPrice"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>
+            <div className="flex items-center justify-center gap-2">
+              FM Attesa{" "}
+              <SortingArrows
+                field="expectedFM"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>
+            <div className="flex items-center justify-center gap-2">
+              Differenza{" "}
+              <SortingArrows
+                field="priceDifference"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>
+            <div className="flex items-center justify-center gap-2">
+              Percentuale Voto{" "}
+              <SortingArrows
+                field="grade"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>
+            <div className="flex items-center justify-center gap-2">
+              Slot{" "}
+              <SortingArrows
+                field="slot"
+                setOrdering={setSortingField}
+                currentOrdering={sortingField}
+              />
+            </div>
+          </th>
+          <th>Traits</th>
         </tr>
       </thead>
       <tbody>
