@@ -15,10 +15,69 @@ import { useEffect, useMemo, useState } from "react";
 import { maxPlayersPerRole } from "../constants/constants";
 import { PlayersTable } from "./PlayersTable";
 import { playersTraits } from "@/data/traits";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export function App() {
-  const [participantsNumber, setParticipantsNumber] = useState(10);
-  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [getPlayersStorage, setPlayersStorage, removePlayersStorage] =
+    useLocalStorage("asta-giocatori");
+  const [
+    getParticipantsStorage,
+    setParticipantsStorage,
+    removeParticipantsStorage,
+  ] = useLocalStorage("asta-partecipanti");
+  const storagePlayers: Player[] | null = getPlayersStorage();
+  const storageParticpants: Participant[] | null = getParticipantsStorage();
+  const [participantsNumber, setParticipantsNumber] = useState(
+    storageParticpants?.length || 10
+  );
+  const [participants, setParticipantsRaw] = useState<Participant[]>(
+    storageParticpants ?? []
+  );
+
+  function resetLocalStorage() {
+    removeParticipantsStorage();
+    removePlayersStorage();
+    window.location.reload();
+  }
+
+  function parseData(data: PlayerRawData[]): Player[] {
+    return data.map((e) => {
+      const traits = playersTraits[e.name];
+      return {
+        name: e.name,
+        team: e.team,
+        role: e.role as PlayerRole,
+        mediumPrice: parseFloat(e.pma.replace(",", ".")),
+        suggestedPrice: parseFloat(e.pfc.replace(",", ".")),
+        slot: parseInt(e.slot),
+        grade: parseInt(e.grade),
+        expectedFM: parseFloat(e.expBonus.replace(",", ".")),
+        updatedAt: new Date(e.updatedAt),
+        priceDifference: parseFloat(e.dpfcpma.replace(",", ".")),
+        traits: traits || [],
+      };
+    });
+  }
+
+  const [players, setPlayersRaw] = useState<Player[]>(
+    storagePlayers ?? [
+      ...parseData(goalkeepers),
+      ...parseData(defenders),
+      ...parseData(midfielders),
+      ...parseData(attackers),
+    ]
+  );
+
+  const setParticipants = (participants: Participant[]) => {
+    setParticipantsRaw(participants);
+    setParticipantsStorage(participants);
+  };
+
+  const setPlayers = (players: Player[]) => {
+    setPlayersRaw(players);
+    setPlayersStorage(players);
+  };
+
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [maxCredits, setMaxCredits] = useState(500);
   const [purchaseHistory, setPurchaseHistory] = useState<Purchase[]>([]);
@@ -55,32 +114,6 @@ export function App() {
       })
     );
   }, [maxCredits]);
-
-  function parseData(data: PlayerRawData[]): Player[] {
-    return data.map((e) => {
-      const traits = playersTraits[e.name];
-      return {
-        name: e.name,
-        team: e.team,
-        role: e.role as PlayerRole,
-        mediumPrice: parseFloat(e.pma.replace(",", ".")),
-        suggestedPrice: parseFloat(e.pfc.replace(",", ".")),
-        slot: parseInt(e.slot),
-        grade: parseInt(e.grade),
-        expectedFM: parseFloat(e.expBonus.replace(",", ".")),
-        updatedAt: new Date(e.updatedAt),
-        priceDifference: parseFloat(e.dpfcpma.replace(",", ".")),
-        traits: traits || [],
-      };
-    });
-  }
-
-  const [players, setPlayers] = useState<Player[]>([
-    ...parseData(goalkeepers),
-    ...parseData(defenders),
-    ...parseData(midfielders),
-    ...parseData(attackers),
-  ]);
 
   function assignPlayerToParticipant(
     playerRole: PlayerRole,
@@ -168,6 +201,13 @@ export function App() {
           onClick={undoLastPurchase}
         >
           Annulla
+        </div>
+
+        <div
+          className="bg-red-400 p-1 rounded-lg hover:cursor-pointer"
+          onClick={resetLocalStorage}
+        >
+          Resetta
         </div>
       </div>
     </div>
